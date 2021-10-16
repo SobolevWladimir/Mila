@@ -1,0 +1,34 @@
+github.com/charmbracelet/bubbles  Разукрашивает терминал ()
+  github.com/charmbracelet/bubbletea тоже 
+  
+  	github.com/fatih/color  -- цветной вывод в консоле
+    github.com/muesli/termenv   -- тоже цветной вывод
+    github.com/spf13/cobra  -- тоже что то с консольным выводом
+
+Интрефейс  
+
+github.com/charmbracelet/lipgloss 
+
+
+	github.com/danvergara/gocui  -- интерфейс по древнее 
+
+
+Вывод  лого  
+
+ 	github.com/common-nighthawk/go-figure 
+
+Миграция бд 
+
+  github.com/golang-migrate/migrate
+
+
+Загрузка конфигураций 
+  
+github.com/kkyr/fig
+
+
+Табличный вывод (врятли понадобится) 
+https://github.com/olekukonko/tablewriter
+
+
+Вроде как удобный интрумент тестирования 
