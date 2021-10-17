@@ -7,39 +7,46 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const path = "~/.config/miladb"
+const folder = "/.config/miladb"
 
 func Load() error {
-	if err := checkFolder(); err != nil {
-		return err
-	}
-	if err := loadConfig(); err != nil {
-		return err
-	}
-	return nil
-}
-
-func checkFolder() error {
-	dirname, err := os.UserHomeDir()
+	path, err := getPath()
 	if err != nil {
 		return err
 	}
-	fmt.Println(dirname)
-
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		fmt.Println("create directory")
-		err := os.Mkdir(path, 0655)
-		if err != nil {
-			return err
-		}
-	} else {
-		fmt.Println("folder exist ")
+	if err := checkFolder(path); err != nil {
+		return err
+	}
+	if err := loadConfig(path); err != nil {
+		return err
 	}
 	return nil
 }
-func loadConfig() error {
-	p := path + "/config.yaml"
+
+func getPath() (string, error) {
+	dirname, err := os.UserHomeDir()
+	if err != nil {
+		return "", err
+	}
+	return dirname + folder, nil
+}
+
+func checkFolder(path string) error {
+
 	if _, err := os.Stat(path); os.IsNotExist(err) {
+		err := os.Mkdir(path, 0777)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+func loadConfig(path string) error {
+	p := path + "/config.yaml"
+
+	_, err := os.Stat(p)
+	if os.IsNotExist(err) {
+		fmt.Println("create default config: " + p)
 		f, err := os.Create(p)
 		defer f.Close()
 		if err != nil {
@@ -48,6 +55,8 @@ func loadConfig() error {
 		config := GetDefaultConfig()
 		d, err := yaml.Marshal(&config)
 		f.Write(d)
+	} else {
+		fmt.Println("load config: " + p)
 	}
 
 	return nil
